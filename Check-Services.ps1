@@ -1,5 +1,10 @@
 USING MODULE .\ServicesHelpers.psm1
 
+$Console = $Host.UI.RawUI 
+$Buffer = $Console.BufferSize  
+$Buffer.Width = '4096'
+$Console.BufferSize = $Buffer 
+
 $ServersList = $ENV:SERVERS_LIST
 $Username    = $ENV:ADMIN
 $Password              = ConvertTo-SecureString $ENV:PASS -AsPlainText -Force 
