@@ -1,30 +1,3 @@
-﻿class MetaServerRestarter {
-    [string]$ServerName
-    [string]$MetaServer
-    [string]$MetaAdminAPIService
-    [string]$MetaRatesCenter
-    [string]$MetaRefRateIndicator
-    [string]$TibRVD
-       
-
-    MetaServerRestarter(
-    [string]$sn,
-    [string]$ms,
-    [string]$maas,
-    [string]$mrc,
-    [string]$mrri,
-    [string]$t
-    
-    ){
-        $this.ServerName = $sn
-        $this.MetaServer = $ms
-        $this.MetaAdminAPIService = $maas
-        $this.MetaRatesCenter = $mrc
-        $this.MetaRefRateIndicator = $mrri
-        $this.TibRVD = $t        
-     }
-}
-
 class Filter
 {
     static [string]$MetaAdminAPIService  = "Name='MetaAdminAPIService.exe'"   
@@ -38,10 +11,11 @@ class Filter
 class Functions
 {
       
-    [string]GetLastBootUpTime (
+    static [string]GetLastBootUpTime (
         [string]$Server,
-        [System.Management.Automation.PSCredential]$Credentials,
-        [string]$Filter              
+        [string]$Filter,              
+        [System.Management.Automation.PSCredential]$Credentials
+        
     )
     {    
         [string]$result = $null
@@ -50,7 +24,7 @@ class Functions
 
         try
         {
-            $result = (gwmi win32_process -computer $Server -Credential $Credentials -filter $Filter -ErrorAction Stop | Select @{Name="Started";Expression={$_.ConvertToDateTime($_.CreationDate)}}| ft -hidetableheaders | out-string ).Trim()
+            $result = gwmi win32_process -computer $Server -Credential $Credentials -filter $Filter -ErrorAction Stop | Select @{Name="Started";Expression={$_.ConvertToDateTime($_.CreationDate)}}| ft -hidetableheaders | out-string 
         }
         catch [System.Runtime.InteropServices.COMException]
         {
@@ -70,6 +44,94 @@ class Functions
         }
         return $result
     }
+
+
+    static [bool]ExportHtmlFile(
+        $Inputs,
+        $HtmlOutputPath        
+    )
+    {   
+        if($Inputs -eq $null -or $htmlOutputPath -eq $null)
+        {
+            return $false
+        }
+        else
+        {
+            $Header = @"
+<style>
+TABLE {border-width: 1px; border-style: solid; border-color: black; border-collapse: collapse;}
+TH {border-width: 1px; padding: 3px; border-style: solid; border-color: black; background-color: #6495ED;}
+TD {border-width: 1px; padding: 3px; border-style: solid; border-color: black;}
+</style>
+"@
+            $inp = $Inputs.Clone()
+            $HTML  = $inp | ConvertTo-Html -As Table -Head $Header -Property ServerName,MetaServer,MetaAdminAPIService,MetaRatesCenter,MetaRefRateIndicator,TibRVD
+            $HTML | Out-File $htmlOutputPath    
+            return $true
+        }
+    }
+    [object]static DisplayResults(
+        $Inputs   
+    )
+    {
+        if($Inputs -eq $null)  
+        {
+            return $null
+        }
+        else
+        {
+            return ($Inputs | Format-Table -Wrap -Property ServerName,MetaServer,MetaAdminAPIService,MetaRatesCenter,MetaRefRateIndicator,TibRVD | Out-String )  
+        }
+    }
 }         
+
+class MetaServerRestarter : Functions {
+    [string]$ServerName
+    [string]$MetaServer
+    [string]$MetaAdminAPIService
+    [string]$MetaRatesCenter
+    [string]$MetaRefRateIndicator
+    [string]$TibRVD
+    [System.Management.Automation.PSCredential]$Credentials       
+
+    MetaServerRestarter(
+    [string]$sn,
+    [string]$ms,
+    [string]$maas,
+    [string]$mrc,
+    [string]$mrri,
+    [string]$t
+    
+    ){
+        $this.ServerName = $sn
+        $this.MetaServer = $ms
+        $this.MetaAdminAPIService = $maas
+        $this.MetaRatesCenter = $mrc
+        $this.MetaRefRateIndicator = $mrri
+        $this.TibRVD = $t        
+        $this.Credentials = $null
+     }
+    
+    MetaServerRestarter(
+    [string]$srv,
+    [System.Management.Automation.PSCredential]$creds
+    )
+    {             
+        $this.ServerName  = $srv
+        $this.Credentials = $creds
+    }
+     
+     GetLastBootTime () {
+     $this.MetaAdminAPIService =   [Functions]::GetLastBootUpTime($this.ServerName, ([Filter]::MetaAdminAPIService),  $this.Credentials )                                              
+     $this.MetaRatesCenter =       [Functions]::GetLastBootUpTime($this.ServerName, ([Filter]::MetaRatesCenter),      $this.Credentials )
+     $this.MetaRefRateIndicator =  [Functions]::GetLastBootUpTime($this.ServerName, ([Filter]::MetaRefRateIndicator), $this.Credentials )
+     $this.MetaServer =            [Functions]::GetLastBootUpTime($this.ServerName, ([Filter]::mtsrv),                $this.Credentials )
+     $this.TibRVD =                [Functions]::GetLastBootUpTime($this.ServerName, ([Filter]::MetaAdminAPIService),  $this.Credentials ) 
+    }
+}
+
+
+
+
   
 
