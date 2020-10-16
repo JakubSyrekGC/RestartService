@@ -1,4 +1,4 @@
-﻿clasfs MetaServerRestarter {
+﻿class MetaServerRestarter {
     [string]$ServerName
     [string]$MetaServer
     [string]$MetaAdminAPIService
