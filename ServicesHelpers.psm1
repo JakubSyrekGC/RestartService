@@ -122,12 +122,12 @@ class MetaServerRestarter : Functions {
     }
      
      GetLastBootTime () {
-     $this.MetaAdminAPIService =   [Functions]::GetLastBootUpTime($this.ServerName, ([Filter]::MetaAdminAPIService),  $this.Credentials )                                              
-     $this.MetaRatesCenter =       [Functions]::GetLastBootUpTime($this.ServerName, ([Filter]::MetaRatesCenter),      $this.Credentials )
-     $this.MetaRefRateIndicator =  [Functions]::GetLastBootUpTime($this.ServerName, ([Filter]::MetaRefRateIndicator), $this.Credentials )
-     $this.MetaServer =            [Functions]::GetLastBootUpTime($this.ServerName, ([Filter]::mtsrv),                $this.Credentials )
-     $this.TibRVD =                [Functions]::GetLastBootUpTime($this.ServerName, ([Filter]::MetaAdminAPIService),  $this.Credentials ) 
-    }
+     $this.MetaAdminAPIService =   ([Functions]::GetLastBootUpTime($this.ServerName, ([Filter]::MetaAdminAPIService),  $this.Credentials )).Trim()                                              
+     $this.MetaRatesCenter =       ([Functions]::GetLastBootUpTime($this.ServerName, ([Filter]::MetaRatesCenter),      $this.Credentials )).Trim()
+     $this.MetaRefRateIndicator =  ([Functions]::GetLastBootUpTime($this.ServerName, ([Filter]::MetaRefRateIndicator), $this.Credentials )).Trim()
+     $this.MetaServer =            ([Functions]::GetLastBootUpTime($this.ServerName, ([Filter]::mtsrv),                $this.Credentials )).Trim()
+     $this.TibRVD =                ([Functions]::GetLastBootUpTime($this.ServerName, ([Filter]::MetaAdminAPIService),  $this.Credentials )).Trim() 
+     }
 }
 
 
