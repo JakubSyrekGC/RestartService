@@ -70,7 +70,7 @@ TD {border-width: 1px; padding: 3px; border-style: solid; border-color: black;}
             return $true
         }
     }
-    [object]static DisplayResults(
+    static [object]DisplayResults(
         $Inputs   
     )
     {
@@ -104,7 +104,9 @@ TD {border-width: 1px; padding: 3px; border-style: solid; border-color: black;}
                 $snap  = $null
                 $errorConnection     = "Connection problem"
                 $errorStringNotFound = "Searched string not found in logs"
-       
+       		
+		Write-Output $server
+		
                 if((Test-Connection $server) -eq $false )  {
                         $Result += New-Object PSObject -Property @{
 	                               ServerName = $server
