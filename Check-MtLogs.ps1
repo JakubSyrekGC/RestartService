@@ -6,14 +6,14 @@ $Buffer.Width = '4096'
 $Console.BufferSize = $Buffer 
 
 $ServersList = $ENV:SERVERS_LIST
-$Username    = $ENV:ADMIN
-$Password              = ConvertTo-SecureString $ENV:PASS -AsPlainText -Force 
-$Credentials           = New-Object System.Management.Automation.PSCredential ($Username, $Password)
+
 $Result = @()
 
 $Result = [Functions]::CheckMetaLogs($ServersList)
 
-#if($Result -ne $null)
+Write-Host $Result
+
+if($Result -ne $null)
 {
 #    if([Functions]::ExportHtmlFile( $Result , "D:\Scripts\PO\G2-Meta-App-Restart-Check\OutputG2MetaProc.html")) { Write-Host "Results exported to html"} 
 }
@@ -21,6 +21,6 @@ else
 {
     exit 1
 }
-return ($Result | Format-Table -Wrap | Out-String )  
+#return ($Result | Format-Table -Wrap | Out-String )  
 
 exit 0
