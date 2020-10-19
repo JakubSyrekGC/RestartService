@@ -6,6 +6,7 @@ $Buffer.Width = '4096'
 $Console.BufferSize = $Buffer 
 
 $ServersList = $ENV:SERVERS_LIST
+Write-Output "Servers: $ServersList"
 
 $Result = @()
 
