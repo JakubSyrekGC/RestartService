@@ -75,8 +75,8 @@ function Get-LastBootUpTime {
 #Region Consts
 $erroractionpreference = "SilentlyContinue" 
 $srv                  =  'MT4106Demo'
-$username    = “cityindex\adm.jak.syr”
-$password    = ConvertTo-SecureString “15Friday54!!” -AsPlainText -Force 
+$username    = $env:User #broken
+$password    = ConvertTo-SecureString $env:Pass -AsPlainText -Force #broken
 $credentials = New-Object System.Management.Automation.PSCredential ($username, $password)
 $HTML | out-null
 $Result = @()
