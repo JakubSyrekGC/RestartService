@@ -87,14 +87,15 @@ TD {border-width: 1px; padding: 3px; border-style: solid; border-color: black;}
         [string]$ServersString
     )
     {
+        $Result = @()
+
         if($ServersString -eq $null)  
         {
             return $null
         }
         else
         {
-            $Servers = $ServersString.Split(",").Trim()
-            $Result = @()
+            $Servers = $ServersString.Split(",").Trim()            
 
             foreach ($server in $Servers)  {
                 
