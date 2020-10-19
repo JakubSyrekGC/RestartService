@@ -12,10 +12,12 @@ $Result = @()
 
 $Result = [Functions]::CheckMetaLogs($ServersList)
 
-Write-Host $Result
+
 
 if($Result -ne $null)
 {
+     ($Result | Format-Table -Wrap | Out-String )
+    
 #    if([Functions]::ExportHtmlFile( $Result , "D:\Scripts\PO\G2-Meta-App-Restart-Check\OutputG2MetaProc.html")) { Write-Host "Results exported to html"} 
 }
 else
