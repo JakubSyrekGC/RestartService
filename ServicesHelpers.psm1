@@ -83,7 +83,7 @@ TD {border-width: 1px; padding: 3px; border-style: solid; border-color: black;}
             return ($Inputs | Format-Table -Wrap -Property ServerName,MetaServer,MetaAdminAPIService,MetaRatesCenter,MetaRefRateIndicator,TibRVD | Out-String )  
         }
     }
-    [object] static CheckMetaLogs (
+    function CheckMetaLogs (
         [string]$ServersString
     )
     {
@@ -102,7 +102,16 @@ TD {border-width: 1px; padding: 3px; border-style: solid; border-color: black;}
                 $logTC = $null
                 $ss    = $null
                 $snap  = $null
-                $error = "Can't Parse Log File"
+                $errorConnection     = "Connection problem"
+                $errorStringNotFound = "Searched string not found in logs"
+       
+                if((Test-Connection $server) -eq $false )  {
+                        $Result += New-Object PSObject -Property @{
+	                               ServerName = $server
+		                           TradeCont  = $errorConnection
+                                   }
+                continue
+                }
 
                 try {
                     $logTC = gc "\\$server\Logs\MetaTrader4Server\TradeController.log" | select-string 'successfully loaded' | Select-object  -Last 1
@@ -118,7 +127,7 @@ TD {border-width: 1px; padding: 3px; border-style: solid; border-color: black;}
                     
                     $Result += New-Object PSObject -Property @{	                            
                                 ServerName = $server
-		                        TradeCont  = $error
+		                        TradeCont  = $errorStringNotFound
                                }
                 }
                 Else {       
