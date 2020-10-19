@@ -5,7 +5,7 @@ $Buffer = $Console.BufferSize
 $Buffer.Width = '4096'
 $Console.BufferSize = $Buffer 
 
-$ServersList = $GLOBAL:SERVERS_LIST
+$ServersList = $GLOBAL:G2_Meta_Servers
 Write-Output "Servers: $ServersList"
 
 $Result = @()
