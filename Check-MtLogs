@@ -13,9 +13,9 @@ $Result = @()
 
 $Result = [Functions]::CheckMetaLogs($ServersList)
 
-if($Result -ne $null)
+#if($Result -ne $null)
 {
-    if([Functions]::ExportHtmlFile( $Result , "D:\Scripts\PO\G2-Meta-App-Restart-Check\OutputG2MetaProc.html")) { Write-Host "Results exported to html"} 
+#    if([Functions]::ExportHtmlFile( $Result , "D:\Scripts\PO\G2-Meta-App-Restart-Check\OutputG2MetaProc.html")) { Write-Host "Results exported to html"} 
 }
 else
 {
