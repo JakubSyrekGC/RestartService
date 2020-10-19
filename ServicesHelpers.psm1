@@ -83,6 +83,54 @@ TD {border-width: 1px; padding: 3px; border-style: solid; border-color: black;}
             return ($Inputs | Format-Table -Wrap -Property ServerName,MetaServer,MetaAdminAPIService,MetaRatesCenter,MetaRefRateIndicator,TibRVD | Out-String )  
         }
     }
+    [object] static CheckMetaLogs (
+        [string]$ServersString
+    )
+    {
+        if($ServersString -eq $null)  
+        {
+            return $null
+        }
+        else
+        {
+            $Servers = $ServersString.Split(",").Trim()
+            $Result = @()
+
+            foreach ($server in $Servers)  {
+                
+                $logTC = $null
+                $ss    = $null
+                $snap  = $null
+                $error = "Can't Parse Log File"
+
+                try {
+                    $logTC = gc "\\$server\Logs\MetaTrader4Server\TradeController.log" | select-string 'successfully loaded' | Select-object  -Last 1
+                    $ss = $logtc.linenumber  
+                    $snap = gc "\\$server\Logs\MetaTrader4Server\TradeController.log"  | select-string  'initial status, dealable' | ?{$_.linenumber -gt $ss} | Select -first 1           
+                }
+                catch [System.Exception]
+                {
+                    Write-Output ($_.Exception.ErrorCode).Trim() 
+                }
+
+                If($logTC -eq $null)  {
+                    
+                    $Result += New-Object PSObject -Property @{	                            
+                                ServerName = $server
+		                        TradeCont  = $error
+                               }
+                }
+                Else {       
+                    
+                    $Result += New-Object PSObject -Property @{
+	                            ServerName = $server
+		                        TradeCont  = $snap
+                               }
+                }
+            }        
+        }
+        return $Result
+    }
 }         
 
 class MetaServerRestarter : Functions {
