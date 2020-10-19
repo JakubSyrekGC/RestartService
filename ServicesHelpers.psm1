@@ -122,7 +122,7 @@ TD {border-width: 1px; padding: 3px; border-style: solid; border-color: black;}
                 }
                 catch [System.Exception]
                 {
-                    Write-Output ($_.Exception.ErrorCode).Trim() 
+                    Write-Output "Ran into an issue: $($PSItem.ToString())"
                 }
 
                 If($logTC -eq $null)  {
