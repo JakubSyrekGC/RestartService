@@ -5,7 +5,7 @@ $Buffer = $Console.BufferSize
 $Buffer.Width = '4096'
 $Console.BufferSize = $Buffer 
 $newLine = [Environment]::NewLine
-$line = "$newLine###################################################################################$newLine"
+$line = "$newLine#####################################################################################################################$newLine"
 
 $line
 $ServersList = $env:G2_Meta_Servers
