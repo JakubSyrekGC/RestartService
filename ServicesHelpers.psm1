@@ -83,7 +83,7 @@ TD {border-width: 1px; padding: 3px; border-style: solid; border-color: black;}
             return ($Inputs | Format-Table -Wrap -Property ServerName,MetaServer,MetaAdminAPIService,MetaRatesCenter,MetaRefRateIndicator,TibRVD | Out-String )  
         }
     }
-    function CheckMetaLogs (
+    static [object]CheckMetaLogs (
         [string]$ServersString
     )
     {
