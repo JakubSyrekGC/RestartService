@@ -13,12 +13,14 @@ $HostName = [System.Net.Dns]::GetHostName()
 #Region Execute
 $newLine#####################################################################################################################$newLine
 $ServersList = $env:G2_Meta_Servers
-Write-Output "Servers: $ServersList"
+Write-Output "Servers: $ServersList" -ForegroundColor Green -BackgroundColor Yellow
 $newLine#####################################################################################################################$newLine
 $Result = @()
 $Result = [Functions]::CheckMetaLogs($ServersList)
 if([Functions]::ExportHtmlFile( $Result, $HTMLpath, $Properties)) 
-  {Write-Output "HTML exported to $HostName / $HTMLpath" }
+  {Write-Output "HTML exported to $HostName / $HTMLpath" -ForegroundColor Green -BackgroundColor White }
+else
+  {Write-Output "Error during HTML export" -ForegroundColor Red -BackgroundColor White }
 #Endregion Execute
 
 #Region DisplayResults
