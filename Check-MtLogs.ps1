@@ -39,12 +39,12 @@ $bar
 $bar
 #Region ReturnResultCodeFromScript
 if($Result -ne $null -and $Result[0].TradeCont.Contains("error") -ne $true) {
-    Write-Output "Logs successfully verified"
+    Write-Output "Logs successfully verified $bar"
     exit 0
 }
 else {
-    Write-Output "Error! Logs not verified. Please check!"
+    Write-Output "Error! Logs not verified. Please check! $bar"
     exit 1
 }
 #Endregion ReturnResultCodeFromScript
-$bar
+
