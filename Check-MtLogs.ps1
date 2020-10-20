@@ -14,7 +14,7 @@ Write-Output "Servers: $ServersList"
 $newLine#####################################################################################################################$newLine
 $Result = @()
 $Result = [Functions]::CheckMetaLogs($ServersList)
-[Functions]::ExportHtmlFile( $Result , "$env:OutputsForMetaStack\G2-Meta-App-Restart-Check\OutputG2MetaProc.html", "ServerName,TradeCont".Split(","))
+if([Functions]::ExportHtmlFile( $Result , "$env:OutputsForMetaStack\G2-Meta-App-Restart-Check\OutputG2MetaProc.html", "ServerName,TradeCont".Split(","))) {Write-Output "HTML exported to $env:OutputsForMetaStack\G2-Meta-App-Restart-Check\OutputG2MetaProc.html }
 #Region execute end
 
 #Region display results
