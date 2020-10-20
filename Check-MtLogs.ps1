@@ -5,26 +5,19 @@ $Buffer = $Console.BufferSize
 $Buffer.Width = '4096'
 $Console.BufferSize = $Buffer 
 $newLine = [Environment]::NewLine
-$line = "$newLine#####################################################################################################################$newLine"
-
-$line
+$newLine#####################################################################################################################$newLine
 $ServersList = $env:G2_Meta_Servers
 Write-Output "Servers: $ServersList"
-$line
+$newLine#####################################################################################################################$newLine
 
 $Result = @()
+
 $Result = [Functions]::CheckMetaLogs($ServersList)
 
-if($Result -ne $null)
-{
-     ($Result | Format-Table -Wrap | Out-String )
-     $line
-#    if([Functions]::ExportHtmlFile( $Result , "D:\Scripts\PO\G2-Meta-App-Restart-Check\OutputG2MetaProc.html")) { Write-Host "Results exported to html"} 
-}
-else
-{
-    exit 1
-}
-#return ($Result | Format-Table -Wrap | Out-String )  
+[Functions]::ExportHtmlFile( $Result , "$env:OutputsForMetaStack\G2-Meta-App-Restart-Check\OutputG2MetaProc.html")
+
+[Functions]::DisplayResults($Result,"ServerName,TradeCont".Split(",") )
+
+$newLine#####################################################################################################################$newLine
 
 exit 0
