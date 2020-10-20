@@ -14,7 +14,7 @@ $bar = Write-Output "$newLine###################################################
 $bar
 #Region Execute
 $ServersList = $env:G2_Meta_Servers
-Write-Output "Servers: $ServersList" 
+Write-Output "Servers: $ServersList $newLine" 
 $Result = @()
 $Result = [Functions]::CheckMetaLogs($ServersList)
 #Endregion Execute
