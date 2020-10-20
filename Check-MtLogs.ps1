@@ -17,7 +17,7 @@ $newLine########################################################################
 $Result = @()
 $Result = [Functions]::CheckMetaLogs($ServersList)
 if([Functions]::ExportHtmlFile( $Result, $HTMLpath, $Properties)) 
-  {Write-Output "HTML exported to $HTMLpath }
+  {Write-Output "HTML exported to $HTMLpath" }
 #Endregion Execute
 
 #Region DisplayResults
