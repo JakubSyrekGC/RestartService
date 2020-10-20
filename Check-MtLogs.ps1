@@ -19,9 +19,10 @@ $Result = @()
 $Result = [Functions]::CheckMetaLogs($ServersList)
 #Endregion Execute
 
-$bar
+
 #Region ExportHTML
 if($Result -ne $null -and $Result[0].TradeCont.Contains("error") -ne $true) {
+  $bar
   if([Functions]::ExportHtmlFile( $Result, $HTMLpath, $Properties)) 
     {Write-Output "HTML exported to $HostName / $HTMLpath"}
   else
@@ -46,3 +47,4 @@ else {
     exit 1
 }
 #Endregion ReturnResultCodeFromScript
+$bar
