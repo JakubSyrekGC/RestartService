@@ -11,10 +11,10 @@ $HostName = [System.Net.Dns]::GetHostName()
 #Endregion Preconfigure
 
 #Region Execute
-$newLine#####################################################################################################################$newLine
+Write-Output $newLine#####################################################################################################################$newLine
 $ServersList = $env:G2_Meta_Servers
 Write-Output "Servers: $ServersList" 
-$newLine#####################################################################################################################$newLine
+Write-Output $newLine#####################################################################################################################$newLine
 $Result = @()
 $Result = [Functions]::CheckMetaLogs($ServersList)
 if([Functions]::ExportHtmlFile( $Result, $HTMLpath, $Properties)) 
@@ -25,7 +25,7 @@ else
 
 #Region DisplayResults
 [Functions]::DisplayResults($Result, $Properties)
-$newLine#####################################################################################################################$newLine
+Write-Output $newLine#####################################################################################################################$newLine
 #Endregion DisplayResults
 
 if($Result -ne $null -and $Result[0].TradeCont.Contains("error") -ne $true) {
