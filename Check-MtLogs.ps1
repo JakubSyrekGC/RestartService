@@ -5,6 +5,8 @@ $Buffer = $Console.BufferSize
 $Buffer.Width = '4096'
 $Console.BufferSize = $Buffer 
 $newLine = [Environment]::NewLine
+$Properties = ("ServerName,TradeCont").Split(",")
+$HTMLpath = "$env:OutputsForMetaStack\G2-Meta-App-Restart-Check\OutputG2MetaProc.html"
 #Endregion Preconfigure
 
 #Region Execute
@@ -14,11 +16,12 @@ Write-Output "Servers: $ServersList"
 $newLine#####################################################################################################################$newLine
 $Result = @()
 $Result = [Functions]::CheckMetaLogs($ServersList)
-if([Functions]::ExportHtmlFile( $Result , "$env:OutputsForMetaStack\G2-Meta-App-Restart-Check\OutputG2MetaProc.html", "ServerName,TradeCont".Split(","))) {Write-Output "HTML exported to $env:OutputsForMetaStack\G2-Meta-App-Restart-Check\OutputG2MetaProc.html }
+if([Functions]::ExportHtmlFile( $Result, $HTMLpath, $Properties)) 
+  {Write-Output "HTML exported to $HTMLpath }
 #Endregion Execute
 
 #Region DisplayResults
-[Functions]::DisplayResults($Result,"ServerName,TradeCont".Split(",") )
+[Functions]::DisplayResults($Result, $Properties)
 $newLine#####################################################################################################################$newLine
 #Endregion DisplayResults
 
