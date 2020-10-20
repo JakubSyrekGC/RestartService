@@ -26,4 +26,9 @@ if([Functions]::ExportHtmlFile( $Result, $HTMLpath, $Properties))
 $newLine#####################################################################################################################$newLine
 #Endregion DisplayResults
 
-exit 0
+if($Result -ne $null -and $Result[0].TradeCont.Contains("error") -ne $true) {
+    return 0
+}
+else {
+    return 1
+}
