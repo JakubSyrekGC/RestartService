@@ -7,6 +7,7 @@ $Console.BufferSize = $Buffer
 $newLine = [Environment]::NewLine
 $Properties = ("ServerName,TradeCont").Split(",")
 $HTMLpath = "$env:OutputsForMetaStack\G2-Meta-App-Restart-Check\OutputG2MetaProc.html"
+$HostName = [System.Net.Dns]::GetHostName()
 #Endregion Preconfigure
 
 #Region Execute
@@ -17,7 +18,7 @@ $newLine########################################################################
 $Result = @()
 $Result = [Functions]::CheckMetaLogs($ServersList)
 if([Functions]::ExportHtmlFile( $Result, $HTMLpath, $Properties)) 
-  {Write-Output "HTML exported to $HTMLpath" }
+  {Write-Output "HTML exported to $HostName / $HTMLpath" }
 #Endregion Execute
 
 #Region DisplayResults
