@@ -48,7 +48,8 @@ class Functions
 
     static [bool]ExportHtmlFile(
         $Inputs,
-        $HtmlOutputPath        
+        $HtmlOutputPath,
+	$Properties
     )
     {   
         if($Inputs -eq $null -or $htmlOutputPath -eq $null)
@@ -65,13 +66,14 @@ TD {border-width: 1px; padding: 3px; border-style: solid; border-color: black;}
 </style>
 "@
             $inp = $Inputs.Clone()
-            $HTML  = $inp | ConvertTo-Html -As Table -Head $Header -Property ServerName,MetaServer,MetaAdminAPIService,MetaRatesCenter,MetaRefRateIndicator,TibRVD
+            $HTML  = $inp | ConvertTo-Html -As Table -Head $Header -Property $Properties
             $HTML | Out-File $htmlOutputPath    
             return $true
         }
     }
     static [object]DisplayResults(
-        $Inputs   
+        $Inputs,
+	$Properties
     )
     {
         if($Inputs -eq $null)  
@@ -80,7 +82,7 @@ TD {border-width: 1px; padding: 3px; border-style: solid; border-color: black;}
         }
         else
         {
-            return ($Inputs | Format-Table -Wrap -Property ServerName,MetaServer,MetaAdminAPIService,MetaRatesCenter,MetaRefRateIndicator,TibRVD | Out-String )  
+            return ($Inputs | Format-Table -Wrap -Property $Properties | Out-String )  
         }
     }
     static [object]CheckMetaLogs (
