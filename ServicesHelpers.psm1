@@ -104,8 +104,8 @@ TD {border-width: 1px; padding: 3px; border-style: solid; border-color: black;}
                 $logTC = $null
                 $ss    = $null
                 $snap  = $null
-                $errorConnection     = "Connection problem"
-                $errorStringNotFound = "Searched string not found in logs"
+                $errorConnection     = "error: Connection problem"
+                $errorStringNotFound = "error: Searched string not found in logs"
        		
 		Write-Output $server
 		
