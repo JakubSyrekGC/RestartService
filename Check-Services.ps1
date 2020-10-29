@@ -13,7 +13,7 @@ $Result = @()
 
 foreach ($srv in $ServersList) 
 {
-    $metaserver = [MetaServerRestarter]::new($srv, $credentials);    
+    $metaserver = [MetaServerChecker]::new($srv, $credentials);    
     $metaserver.GetLastBootTime()
     $Result += $metaserver     
 }   
