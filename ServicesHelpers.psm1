@@ -36,11 +36,11 @@ class Functions
         }
         catch [System.UnauthorizedAccessException]
         {
-            $result = ("Access is denied").Trim()         
+            $result = "Access is denied"
         }
         catch [System.Exception]
         {
-            $result = ($_.Exception.ErrorCode).Trim()
+            $result = $_.Exception.ErrorCode
         }
         return $result
     }
