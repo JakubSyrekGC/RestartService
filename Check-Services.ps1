@@ -5,7 +5,7 @@ $Buffer = $Console.BufferSize
 $Buffer.Width = '4096'
 $Console.BufferSize = $Buffer 
 
-$ServersList = $ENV:MT5_Start #SERVERS_LIST
+$ServersList = $ENV:MT5_Start.Split(",") #SERVERS_LIST
 $Username    = $ENV:ADMIN
 $Password              = ConvertTo-SecureString $ENV:PASS -AsPlainText -Force 
 $Credentials           = New-Object System.Management.Automation.PSCredential ($Username, $Password)
