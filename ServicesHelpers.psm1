@@ -27,30 +27,13 @@ class Functions
         
     )
     {    
-        [string]$result = $null
+        [string]$result = ""
 
-        if ([string]::IsNullOrEmpty($Server) -or [string]::IsNullOrEmpty($Server) -or $Credentials -eq [System.Management.Automation.PSCredential]::Empty) {return $null}
-
-        try
-        {
-            $result = gwmi win32_process -computer $Server -Credential $Credentials -filter $Filter -ErrorAction Stop | Select @{Name="Started";Expression={$_.ConvertToDateTime($_.CreationDate)}}| ft -hidetableheaders | out-string 
-        }
-        catch [System.Runtime.InteropServices.COMException]
-        {
-            if($_.Exception.ErrorCode -eq 0x800706BA)
-            {       
-                $result = "The RPC server is unavailable"           
-            }        
+        if ([string]::IsNullOrEmpty($Server) -or $Credentials -eq [System.Management.Automation.PSCredential]::Empty) 
+        { return "Wrong credentials" }
+                
+        $result = gwmi win32_process -computer $Server -Credential $Credentials -filter $Filter -ErrorAction Stop | Select @{Name="Started";Expression={$_.ConvertToDateTime($_.CreationDate)}}| ft -hidetableheaders | out-string 
         
-        }
-        catch [System.UnauthorizedAccessException]
-        {
-            $result = "Access is denied"
-        }
-        catch [System.Exception]
-        {
-            $result = $_.Exception.ErrorCode
-        }
         return $result
     }
 
