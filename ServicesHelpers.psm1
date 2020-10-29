@@ -4,10 +4,19 @@ class Filter
     static [string]$MetaRatesCenter      = "Name='MetaRatesCenter.exe'"          
     static [string]$MetaRefRateIndicator = "Name='MetaRefRateIndicator.exe'"
     static [string]$mtsrv                = "Name='mtsrv.exe'"               
-    static [string]$rvntsctl             = "Name='rvntsctl.exe'"             
-  
+    static [string]$rvntsctl             = "Name='rvntsctl.exe'"  
+    
+    static [string]$TibRVD1              = "Name='rvd.exe'"           
+    static [string]$HS1                  = "Name='mt5history64.exe'"  
+    static [string]$TS1                  = "Name='mt5trade64.exe'"    
+    static [string]$PF1                  = "Name='MT5PriceFeeder.exe'"
+    static [string]$MAPI1                = "Name='MT5ManagerAPI.exe'"   
 }
-
+class Properties
+{
+    static $CheckMt5ServicesProps =  @("ServerName","TibRVD1","TS1","PF1","MAPI1")     
+    
+}
 class Functions
 {
       
@@ -192,7 +201,50 @@ class MetaServerRestarter : Functions {
      }
 }
 
+class MetaServerChecker : Functions {
+    [string]$ServerName
+    [string]$TibRVD1
+    [string]$HS1    
+    [string]$TS1    
+    [string]$PF1    
+    [string]$MAPI1  
+    [System.Management.Automation.PSCredential]$Credentials       
 
+    MetaServerChecker(
+    [string]$sn,
+    [string]$tb,
+    [string]$hs,
+    [string]$ts,
+    [string]$pf,
+    [string]$mp
+    
+    ){
+        $this.ServerName = $sn
+        $this.TibRVD1 = $tb
+        $this.HS1     = $hs
+        $this.TS1     = $ts
+        $this.PF1     = $pf
+        $this.MAPI1   = $mp        
+        $this.Credentials = $null
+     }
+    
+    MetaServerChecker(
+    [string]$srv,
+    [System.Management.Automation.PSCredential]$creds
+    )
+    {             
+        $this.ServerName  = $srv
+        $this.Credentials = $creds
+    }
+     
+     GetLastBootTime () {
+     $this.TibRVD1             = ([Functions]::GetLastBootUpTime($this.ServerName, ([Filter]::TibRVD1)  , $this.Credentials )).Trim()                                              
+     $this.HS1                 = ([Functions]::GetLastBootUpTime($this.ServerName, ([Filter]::HS1)      , $this.Credentials )).Trim()
+     $this.TS1                 = ([Functions]::GetLastBootUpTime($this.ServerName, ([Filter]::TS1)      , $this.Credentials )).Trim()
+     $this.PF1                 = ([Functions]::GetLastBootUpTime($this.ServerName, ([Filter]::PF1)      , $this.Credentials )).Trim()
+     $this.MAPI1               = ([Functions]::GetLastBootUpTime($this.ServerName, ([Filter]::MAPI1)    , $this.Credentials )).Trim() 
+    }
+}
 
 
   
