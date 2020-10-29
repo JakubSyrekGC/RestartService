@@ -1,5 +1,11 @@
 ﻿#Region Preconfigure
 USING MODULE .\ServicesHelpers.psm1
+
+$Console = $Host.UI.RawUI 
+$Buffer = $Console.BufferSize  
+$Buffer.Width = '4096'
+$Console.BufferSize = $Buffer 
+
 $ServersList = $ENV:G2_Meta.Split(",")
 $Username    = $ENV:ADMIN
 $Password              = ConvertTo-SecureString $ENV:PASS -AsPlainText -Force 
