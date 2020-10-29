@@ -1,6 +1,6 @@
 ﻿#Region Preconfigure
 USING MODULE .\ServicesHelpers.psm1
-$ServersList = $ENV:MT5_Start
+$ServersList = $ENV:MT5_Start.Split(",")
 $Username    = $ENV:ADMIN
 $Password              = ConvertTo-SecureString $ENV:PASS -AsPlainText -Force 
 $Credentials           = New-Object System.Management.Automation.PSCredential ($Username, $Password)
