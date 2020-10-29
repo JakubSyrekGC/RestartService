@@ -12,7 +12,7 @@ $HTMLpath               = "$env:OutputsForMetaStack\G2-Meta-App-Restart-Check\Ou
 $Result = @();
 foreach ($srv in $ServersList) 
 {
-    $metaserver = [MetaServerRestarter]::new($srv, $credentials);    
+    $metaserver = [MetaServerRestarter]::new($srv, $Credentials);    
     $metaserver.GetLastBootTime();
     $Result += $metaserver;     
 }
