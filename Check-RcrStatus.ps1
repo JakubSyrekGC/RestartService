@@ -1,7 +1,7 @@
 ﻿#Region Preconfigure
 USING MODULE .\ServicesHelpers.psm1
 
-$ServersList           = $ENV:RCR_Servers
+$ServersList           = $ENV:RCR_Servers.Split(",")
 $Username              = $ENV:ADMIN
 $Password              = ConvertTo-SecureString $ENV:PASS -AsPlainText -Force 
 $Credentials           = New-Object System.Management.Automation.PSCredential ($Username, $Password)
