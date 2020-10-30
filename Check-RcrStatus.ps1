@@ -1,12 +1,11 @@
 ﻿#Region Preconfigure
 USING MODULE .\ServicesHelpers.psm1
 
-$ServersList = $ENV:MT5_Start
-$Username    = $ENV:ADMIN
+$ServersList           = $ENV:MT5_Start
+$Username              = $ENV:ADMIN
 $Password              = ConvertTo-SecureString $ENV:PASS -AsPlainText -Force 
 $Credentials           = New-Object System.Management.Automation.PSCredential ($Username, $Password)
-
-$HTMLpath               = "$env:OutputsForMetaStack\RCR_Status\OutputRCRStatus.html"
+$HTMLpath              = "$env:OutputsForMetaStack\RCR_Status\OutputRCRStatus.html"
 #Endregion Preconfigure
 
 
