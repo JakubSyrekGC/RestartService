@@ -11,6 +11,10 @@ class Filter
     static [string]$TS1                  = "Name='mt5trade64.exe'"    
     static [string]$PF1                  = "Name='MT5PriceFeeder.exe'"
     static [string]$MAPI1                = "Name='MT5ManagerAPI.exe'"   
+    
+    static [string]$RatesCheckerServiceGB      = 'RatesCheckerServiceGB'    
+    static [string]$RatesCheckerServiceCALive  = 'RatesCheckerServiceCALive'
+    static [string]$RatesCheckerServiceJPDemo  = 'RatesCheckerServiceJPDemo'
 }
 class Properties
 {
@@ -229,7 +233,49 @@ class MetaServerChecker : Functions {
      $this.MAPI1               = ([Functions]::GetLastBootUpTime($this.ServerName, ([Filter]::MAPI1)    , $this.Credentials )).Trim() 
     }
 }
+class RCRChecker : Functions {
+    [string]$ServerName        
+    [string]$RatesCheckerGB    
+    [string]$RatesCheckerCALive
+    [string]$RatesCheckerJPDemo        
+    [System.Management.Automation.PSCredential]$Credentials       
 
+    RCRChecker(
+    [string]$sn,
+    [string]$rcGB,
+    [string]$rcCA,
+    [string]$rcJPD,
+    [System.Management.Automation.PSCredential]$c  
+    
+    ){
+        $this.ServerName                 = $sn
+        $this.RatesCheckerGB             = $rcgb
+        $this.RatesCheckerCALive         = $rcCA
+        $this.RatesCheckerJPDemo         = $rcJPD
+        $this.Credentials                = $c
+     }
+    
+    RCRChecker(
+    [string]$srv,
+    [System.Management.Automation.PSCredential]$creds
+    )
+    {             
+        $this.ServerName  = $srv
+        $this.Credentials = $creds        
+    }
+     
+     GetRcrStatus () {
+     
+        $this.RatesCheckerGB             = Get-Service -computer $this.ServerName -Name ( [Filter]::RatesCheckerServiceGB)     -ErrorAction SilentlyContinue | select Status| ft -hidetableheaders | out-string 
+        $this.RatesCheckerCALive         = Get-Service -computer $this.ServerName -Name ( [Filter]::RatesCheckerServiceCALive) -ErrorAction SilentlyContinue | select Status| ft -hidetableheaders | out-string 
+        $this.RatesCheckerJPDemo         = Get-Service -computer $this.ServerName -Name ( [Filter]::RatesCheckerServiceJPDemo) -ErrorAction SilentlyContinue | select Status| ft -hidetableheaders | out-string     
+        
+        if( [string]::IsNullOrEmpty($this.RatesCheckerGB) )     { $this.RatesCheckerGB         = "Service not available"}
+        if( [string]::IsNullOrEmpty($this.RatesCheckerCALive) ) { $this.RatesCheckerCALive     = "Service not available"}
+        if( [string]::IsNullOrEmpty($this.RatesCheckerJPDemo) ) { $this.RatesCheckerJPDemo     = "Service not available"}
+
+    }
+}
 
   
 
