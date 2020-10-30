@@ -20,7 +20,7 @@ class Properties
 {
     static $CheckMt5ServicesProps =  @("ServerName","TibRVD1","TS1","PF1","MAPI1")     
     static $CheckMetaProps        =  @("ServerName","MetaServer","MetaAdminAPIService","MetaRatesCenter","MetaRefRateIndicator","TibRVD")     
-    
+    static $CheckRCRProps         =  @("ServerName","RatesCheckerGB","RatesCheckerCALive","RatesCheckerJPDemo") 
 }
 class Functions
 {
