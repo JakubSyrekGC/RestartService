@@ -21,6 +21,7 @@ class Properties
     static $CheckMt5ServicesProps =  @("ServerName","TibRVD1","TS1","PF1","MAPI1")     
     static $CheckMetaProps        =  @("ServerName","MetaServer","MetaAdminAPIService","MetaRatesCenter","MetaRefRateIndicator","TibRVD")     
     static $CheckRCRProps         =  @("ServerName","RatesCheckerGB","RatesCheckerCALive","RatesCheckerJPDemo") 
+    static $CheckConnProps         =  @("ServerName","TradesBusConn","dnsName")
 }
 class Functions
 {
@@ -277,5 +278,41 @@ class RCRChecker : Functions {
     }
 }
 
+
+
+class ConnChecker : Functions {
+    [string]$ServerName        
+    [string]$TradesBusConn 
+    [string]$dnsName
+    [System.Management.Automation.PSCredential]$Credentials       
+
+    ConnChecker(
+    [string]$sn,
+    [string]$tbc,
+    [string]$dn,
+    [System.Management.Automation.PSCredential]$c  
+    
+    ){
+        $this.ServerName                 = $sn
+        $this.TradesBusConn              = $tbc
+        $this.dnsName                    = $dn
+        $this.Credentials                = $c
+     }
+    
+    ConnChecker(
+    [string]$srv,
+    [System.Management.Automation.PSCredential]$creds
+    )
+    {             
+        $this.ServerName  = $srv
+        $this.Credentials = $creds        
+    }
+     
+     GetConnectivityStatus () {
+     
+        $this.dnsName = Resolve-DnsName -Name $this.ServerName | % {$_.namehost } | Select-Object -First 1 ;
+        $this.TradesBusConn = Invoke-Command -ComputerName ( $this.dnsName ) {(Get-NetTCPConnection  | ? {($_.State -eq "Established") -and ($_.RemoteAddress -eq "172.25.112.194") -and ($_.RemotePort -eq "8222")}).count} -Credential $this.Credentials;
+    }
+}
   
 
