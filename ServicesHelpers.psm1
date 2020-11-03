@@ -12,9 +12,9 @@ class Filter
     static [string]$PF1                  = "Name='MT5PriceFeeder.exe'"
     static [string]$MAPI1                = "Name='MT5ManagerAPI.exe'"   
     
-    static [string]$RatesCheckerServiceGB      = 'RatesCheckerServiceGB'    
-    static [string]$RatesCheckerServiceCALive  = 'RatesCheckerServiceCALive'
-    static [string]$RatesCheckerServiceJPDemo  = 'RatesCheckerServiceJPDemo'
+    static [string]$RatesCheckerServiceGB      = "Name='RatesCheckerServiceGB'"    
+    static [string]$RatesCheckerServiceCALive  = "Name='RatesCheckerServiceCALive'"
+    static [string]$RatesCheckerServiceJPDemo  = "Name='RatesCheckerServiceJPDemo'"
 }
 class Properties
 {
