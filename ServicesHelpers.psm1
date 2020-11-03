@@ -310,8 +310,8 @@ class ConnChecker : Functions {
      
      GetConnectivityStatus () {
      
-        $this.dnsName = Resolve-DnsName -Name $this.ServerName | % {$_.namehost } | Select-Object -First 1 ;
-        $this.TradesBusConn = Invoke-Command -ComputerName ( $this.dnsName ) {(Get-NetTCPConnection  | ? {($_.State -eq "Established") -and ($_.RemoteAddress -eq "172.25.112.194") -and ($_.RemotePort -eq "8222")}).count} -Credential $this.Credentials;
+        $this.dnsName       = Resolve-DnsName -Name $this.ServerName | % {$_.namehost } | Select-Object -First 1 ;
+        $this.TradesBusConn = Invoke-Command -ComputerName  $this.dnsName -Credential $this.Credentials -ErrorAction SilentlyContinue {(Get-NetTCPConnection  | ? {($_.State -eq "Established") -and ($_.RemoteAddress -eq "172.25.112.194") -and ($_.RemotePort -eq "8222")}).count} ;
     }
 }
   
