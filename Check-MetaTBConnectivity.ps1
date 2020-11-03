@@ -1,18 +1,15 @@
-﻿#Region Preconfigure
-USING MODULE C:\dev\ServicesHelpers.psm1
-#.\ServicesHelpers.psm1
+USING MODULE .\ServicesHelpers.psm1
 
-#$ServersList = $ENV:MT5_Start
-$ServersList =                       @("MT4104Demo")
-#$Username    = $ENV:ADMIN
-#$Password              = ConvertTo-SecureString $ENV:PASS -AsPlainText -Force 
-#$Credentials           = New-Object System.Management.Automation.PSCredential ($Username, $Password)
+$Console                  = $Host.UI.RawUI 
+$Buffer                   = $Console.BufferSize  
+$Buffer.Width             = '4096'
+$Console.BufferSize       = $Buffer 
 
-
-$HTMLpath               = "C:\dev\OutputRCRStatus.html"
-#"MT_TB_Conn\OutputTBConn.html"
-
-
+$ServersList              = $ENV:G2_Meta.Split(",")
+$Username                 = $ENV:ADMIN
+$Password                 = ConvertTo-SecureString $ENV:PASS -AsPlainText -Force 
+$Credentials              = New-Object System.Management.Automation.PSCredential ($Username, $Password)
+$HTMLpath                 = "$env:OutputsForMetaStack\MT_TB_Conn\OutputTBConn.html"
 #Endregion Preconfigure
 
 
