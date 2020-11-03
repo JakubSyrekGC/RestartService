@@ -266,26 +266,10 @@ class RCRChecker : Functions {
      
      GetRcrStatus () {
      
-        $scriptBlock = {param($srvr, $name) Get-Service -computer $srvr -Name $name -ErrorAction SilentlyContinue | select Status| ft -hidetableheaders | out-string  };
-
-
-        $GetRatesCheckerGB = Start-Job -ScriptBlock $scriptBlock -ArgumentList @($this.ServerName, [Filter]::RatesCheckerServiceGB) -Credential $this.Credentials;
-        Wait-Job $GetRatesCheckerGB;
-        $Result = Receive-Job -Job $GetRatesCheckerGB;
-        $this.RatesCheckerGB = $Result.ToString().Trim();
-               
+        $this.RatesCheckerGB     = (Get-WMIObject Win32_Service -computer $this.ServerName -credential $this.Credentials  -Filter ([Filter]::RatesCheckerServiceGB ) ).State
+        $this.RatesCheckerCALive = (Get-WMIObject Win32_Service -computer $this.ServerName -credential $this.Credentials  -Filter ([Filter]::RatesCheckerServiceCALive ) ).State
+        $this.RatesCheckerJPDemo = (Get-WMIObject Win32_Service -computer $this.ServerName -credential $this.Credentials  -Filter ([Filter]::RatesCheckerServiceJPDemo ) ).State
         
-        $GetRatesCheckerCALive = Start-Job -ScriptBlock $scriptBlock -ArgumentList @($this.ServerName,[Filter]::RatesCheckerServiceCALive ) -Credential $this.Credentials;
-        Wait-Job $GetRatesCheckerCALive;
-        $Result = Receive-Job -Job $GetRatesCheckerCALive;
-        $this.RatesCheckerCALive = $Result.ToString().Trim();
-
-        
-        $GetRatesCheckerJPDemo = Start-Job -ScriptBlock $scriptBlock -ArgumentList @($this.ServerName,[Filter]::RatesCheckerServiceJPDemo ) -Credential $this.Credentials;
-        Wait-Job $GetRatesCheckerJPDemo;
-        $Result = Receive-Job -Job $GetRatesCheckerJPDemo;
-        $this.RatesCheckerJPDemo = $Result.ToString().Trim();
-
         if( [string]::IsNullOrEmpty($this.RatesCheckerGB) )     { $this.RatesCheckerGB         = "Service not available"};
         if( [string]::IsNullOrEmpty($this.RatesCheckerCALive) ) { $this.RatesCheckerCALive     = "Service not available"};
         if( [string]::IsNullOrEmpty($this.RatesCheckerJPDemo) ) { $this.RatesCheckerJPDemo     = "Service not available"};
