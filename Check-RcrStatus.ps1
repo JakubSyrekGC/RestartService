@@ -21,14 +21,6 @@ foreach ($srv in $ServersList)
 #Endregion Execute
 
 
-#Region DisplayResults
-
-return ($Result | Format-Table -Wrap -Property ( [Properties]::CheckRCRProps ) | Out-String )  
-
-#Endregion DisplayResults
-
-
-
 #Region ExportHTML
 if($Result -ne $null -and $Result[0] -ne $null) {  
   
@@ -38,4 +30,15 @@ if($Result -ne $null -and $Result[0] -ne $null) {
     {Write-Output "Error during HTML export" }
 }
 #EndRegion ExportHTML
+
+
+#Region DisplayResults
+
+return ($Result | Format-Table -Wrap -Property ( [Properties]::CheckRCRProps ) | Out-String )  
+
+#Endregion DisplayResults
+
+
+
+
 
