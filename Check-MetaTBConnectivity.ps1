@@ -18,7 +18,8 @@ $Result = @() ;
 
 foreach ($srv in $ServersList) 
 {
-    $ConnChecker = [ConnChecker]::new($srv, $Credentials)    
+    $ConnChecker = [ConnChecker]::new($srv, $Credentials)
+    $ConnChecker.GetDns()
     $ConnChecker.GetConnectivityStatus()                 
     $Result += $ConnChecker                                      
 }
