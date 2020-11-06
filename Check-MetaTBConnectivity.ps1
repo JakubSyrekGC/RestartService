@@ -5,7 +5,7 @@ $Buffer                   = $Console.BufferSize
 $Buffer.Width             = '4096'
 $Console.BufferSize       = $Buffer 
 
-$ServersList              = @("INX-SRV-MTBR01") #$ENV:G2_Meta.Split(",")
+$ServersList              = @("MT4101Live") #$ENV:G2_Meta.Split(",")
 $Username                 = $ENV:ADMIN
 $Password                 = ConvertTo-SecureString $ENV:PASS -AsPlainText -Force 
 $Credentials              = New-Object System.Management.Automation.PSCredential ($Username, $Password)
