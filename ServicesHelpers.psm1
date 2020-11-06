@@ -314,7 +314,7 @@ class ConnChecker : Functions {
      
         #$DnsJob = Start-Job -ScriptBlock {Resolve-DnsName -Name $input | % {$_.namehost } | Select-Object -First 1 ;} -InputObject $this.ServerName -Credential $this.Credentials
         #Wait-Job $DnsJob
-        $this.dnsName = Resolve-DnsName -Name $input | % {$_.namehost } | Select-Object -First 1 ;
+        $this.dnsName = Resolve-DnsName -Name $this.ServerName | % {$_.namehost } | Select-Object -First 1 ;
 	#Receive-Job -Job $DnsJob
                 
         $this.TradesBusConn = Invoke-Command -ComputerName  $this.dnsName -Credential $this.Credentials -ErrorAction SilentlyContinue {(Get-NetTCPConnection  | ? {($_.State -eq "Established") -and ($_.RemoteAddress -eq "172.25.112.194") -and ($_.RemotePort -eq "8222")}).count} ;
