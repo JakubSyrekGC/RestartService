@@ -304,8 +304,10 @@ class ConnChecker : Functions {
     [System.Management.Automation.PSCredential]$creds
     )
     {             
-        $this.ServerName  = $srv
-        $this.Credentials = $creds        
+        $this.ServerName     = $srv
+        $this.Credentials    = $creds 
+	$this.dnsName        = ""
+	$this.TradesBusConn  = ""
     }
      
      GetConnectivityStatus () {
